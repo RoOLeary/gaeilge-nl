@@ -1,13 +1,21 @@
 ---
-title: "Installing Go on a Mac"
-pubDate: "2020-02-01"
-slug: "go-basics-1-installing-go-on-a-mac"
-description: "In this article, I am going to show you how to install & setup Go (Golang) on Mac and also setup/configure VS Code for writing Go (Golang) code."
-hero: "/images/Golang-Basics.png"
-tags: ["go"]
-layout: "../../layouts/BlogPostLayout.astro"
+layout: ../../layouts/BlogPostLayout.astro
+pubDate: 2020-02-01
+title: Installing Go on a Mac
+slug: go-basics-1-installing-go-on-a-mac
+date: 2025-10-02T11:05:00.000+02:00
+thumbnail: /uploads/image-11-.png
+rating: 5
+author: ronan-o-laoire
+tags:
+  - go
+faq:
+  - question: Haigh
+    answer: Ahoy hoy
+hero: /images/Golang-Basics.png
+description: In this article, I am going to show you how to install & setup Go
+  (Golang) on Mac and also setup/configure VS Code for writing Go (Golang) code.
 ---
-
 In this article, I am going to show you how to install & setup Go on Mac and also setup/configure VS Code for writing Go code.
 
 ## Install
@@ -94,5 +102,5 @@ installing a single extension called [Go](https://marketplace.visualstudio.com/i
 
 ## Additional Resources
 
-- [Golang.org](https://golang.org/)
-- [Go.dev](https://go.dev/)
+* [Golang.org](https://golang.org/)
+* [Go.dev](https://go.dev/)

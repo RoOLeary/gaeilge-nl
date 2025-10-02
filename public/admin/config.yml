@@ -1,0 +1,81 @@
+local_backend: true
+
+backend:
+  name: github
+  branch: main
+
+# Recommend keeping uploads in /public so URLs are simple:
+media_folder: "public/uploads"   # files stored in repo
+public_folder: "/uploads"        # URL path on the site
+
+collections:
+  - name: "blog"
+    label: "Blog"
+    folder: "src/pages/posts"
+    create: true
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "blog" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "thumbnail", widget: "image" }
+      - { label: "Rating (1–5)", name: "rating", widget: "number", min: 1, max: 5, step: 1 }
+      - { label: "Body", name: "body", widget: "markdown" }
+      - label: "Content Blocks"
+        name: "blocks"
+        widget: "list"
+        types:
+          - label: "Text Block"
+            name: "text_block"
+            widget: "object"
+            fields:
+              - { label: "Body", name: "body", widget: "markdown" }
+          - label: "Image Block"
+            name: "image_block"
+            widget: "object"
+            fields:
+              - { label: "Image", name: "image", widget: "image" }
+              - { label: "Caption", name: "caption", widget: "string", required: false }
+      - label: "Author"
+        name: "author"
+        widget: "relation"
+        collection: "authors"
+        search_fields: ["name", "bio"]
+        value_field: "slug"
+        display_fields: ["name"]
+      - label: "Tags"
+        name: "tags"
+        widget: "relation"
+        collection: "tags"
+        search_fields: ["title"]
+        value_field: "title"
+        display_fields: ["title"]
+        multiple: true
+      - label: “Ceisteanna Coitianta”
+        name: faq
+        widget: list
+        summary: "Question"
+        collapsed: true
+        fields:
+          - { label: “Ceist”,  name: question, widget: string }
+          - { label: “Freagra”, name: answer,  widget: text }
+  - name: "pages"
+    label: "Pages"
+    folder: "src/pages"
+    create: true
+    fields:
+      - { label: "Layout", name: "layout", widget: "hidden", default: "page" }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime" }
+      - { label: "Featured Image", name: "thumbnail", widget: "image", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "authors"
+    label: "Authors"
+    folder: "content/authors"
+    create: true
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Slug", name: "slug", widget: "string" }
+      - { label: "Bio", name: "bio", widget: "text", required: false }
