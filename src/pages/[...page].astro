@@ -6,6 +6,7 @@ import Card from '../components/Card.astro';
 import Footer from '../components/Footer/Footer.astro'
 import Paginator from '../components/Paginator.astro'
 import Products from '../components/Products';
+import { ViewTransitions } from "astro:transitions";
 
 export async function getStaticPaths({ paginate }) {
   const allPosts = await Astro.glob<MarkdownFrontmatter>('./*.md');
@@ -31,6 +32,7 @@ let seoDescription = '';
 
 <head>
   <BaseHead title={seoTitle} description={seoDescription} />
+  <ViewTransitions />
 </head>
 
 <body class="bg-white text-black font-body leading-normal personality-casual">

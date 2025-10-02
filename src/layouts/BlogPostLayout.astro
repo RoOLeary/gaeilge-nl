@@ -1,23 +1,35 @@
 ---
-import Nav from '../components/Nav.astro';
-import BaseHead from '../components/Head/BaseHead.astro';
-import BlogPost from '../components/BlogPost.astro';
+import { fade } from "astro:transitions";
+import Nav from "../components/Nav.astro";
+import BaseHead from "../components/Head/BaseHead.astro";
+import BlogPost from "../components/BlogPost.astro";
+// Sampla: React Counter mar oileán
+import Counter from "../components/Counter";
+import { ViewTransitions } from "astro:transitions";
 
-const {content} = Astro.props;
-const {title, description, date, hero, youtube, faq, author} = content;
+const { content } = Astro.props;
+const { title, description, date, hero, youtube, faq, author } = content;
 ---
-<html lang={ content.lang || 'en' }>
+
+<html lang={content.lang || "en"}>
   <head>
     <BaseHead title={title} description={description} />
+    <!-- Cumasaigh client-side routing + transitions -->
+    <ViewTransitions />
   </head>
 
   <body>
     <Nav />
-    <main class="py-12 lg:py-20">
-      <BlogPost title={title} hero={hero} date={date} youtube={youtube} author={author} faq={faq} >
+
+    <!-- Coinnigh an Counter idir nascleanúintí -->
+    <!-- <div class="px-4 py-2">
+      <Counter client:load transition:persist />
+    </div> -->
+
+    <main class="py-12 lg:py-20" transition:animate="fade">
+      <BlogPost title={title} hero={hero} date={date} youtube={youtube} author={author} faq={faq}>
         <slot />
       </BlogPost>
     </main>
   </body>
 </html>
-
