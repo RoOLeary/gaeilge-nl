@@ -1,0 +1,28 @@
+---
+import Nav from '../components/Nav.astro';
+import BaseHead from '../components/Head/BaseHead.astro';
+import HomeHeader from '../components/HomeHeader.astro';
+import Products from '../components/Products';
+
+const {content} = Astro.props;
+const {title, description } = content;
+---
+<html lang={ content.lang || 'en' }>
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+
+  <body>
+    <Nav />
+    <main class="py-12 lg:py-20">
+        <HomeHeader title={title} description={description} />
+        <article class="max-w-6xl mx-auto px-3">
+            <h1>{title}</h1>
+            <slot />
+        </article>
+        {title == "Products" &&
+        <Products />}
+    </main>
+  </body>
+</html>
+

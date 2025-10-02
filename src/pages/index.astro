@@ -11,8 +11,8 @@ interface MarkdownFrontmatter {
   date: number;
 }
 
-const title = 'Good Company';
-const description = 'A Theme for Gooding';
+const title = 'Gaeltacht Amstardam';
+const description = 'Suíomh don craobh áitúil';
 const seoDescription = 'Good is a theme for Astro static site gooders';
 
 const allPosts = await Astro.glob<MarkdownFrontmatter>('./posts/*.md');
@@ -48,7 +48,7 @@ const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.pubDate).valu
     </article>
   </main>
 
-  <section class="flex space-x-8 justify-center text-xl pt-8 font-bold">
+  <section class="flex space-x-4 justify-center text-xl font-bold">
     <a href="/posts" class="mr-8" data-test="see-all-link">
       See All<span class="squiggle">&rarr;</span>
     </a>
