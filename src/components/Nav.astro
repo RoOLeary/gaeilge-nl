@@ -1,5 +1,5 @@
 ---
-
+const currentUrl = Astro.url.pathname;
 ---
 
 <nav>
@@ -9,10 +9,10 @@
     <!-- Desktop Menu -->
     <div class="hidden md:flex items-center">
       <ul class="flex gap-3">
-        <li><a href="/">Home</a></li>
-        <li><a href="/posts">Nuacht</a></li>
-        <li><a href="/imeachta">Imeachtaí</a></li>
-        <li><a href="/contact">Teangmháil</a></li>
+        <li><a href="/" class={currentUrl === '/' ? 'text-hot-pink font-semibold' : 'hover:text-hot-pink'}>Home</a></li>
+        <li><a href="/posts" class={currentUrl.startsWith('/posts') ? 'text-hot-pink font-semibold' : 'hover:text-hot-pink'}>Nuacht</a></li>
+        <li><a href="/imeachtaí" class={currentUrl === '/imeachtaí' ? 'text-hot-pink font-semibold' : 'hover:text-hot-pink'}>Imeachtaí</a></li>
+        <li><a href="/contact" class={currentUrl === '/contact' ? 'text-hot-pink font-semibold' : 'hover:text-hot-pink'}>Teangmháil</a></li>
       </ul>
       
       <!-- Language switcher -->
@@ -58,17 +58,17 @@
       <!-- Navigation Links -->
       <div class="flex-1 p-6">
         <ul class="space-y-6">
-          <li><a href="/" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Baile</a></li>
-          <li><a href="/posts" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Nuacht</a></li>
-          <li><a href="/imeachta" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Imeachtaí</a></li>
-          <li><a href="/contact" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Teangmháil</a></li>
+          <li><a href="/" class={currentUrl === '/' ? 'block text-5xl text-hot-pink font-bold transition-colors' : 'block text-5xl text-gray-900 hover:text-hot-pink transition-colors'}>Baile</a></li>
+          <li><a href="/posts" class={currentUrl.startsWith('/posts') ? 'block text-5xl text-hot-pink font-bold transition-colors' : 'block text-5xl text-gray-900 hover:text-hot-pink transition-colors'}>Nuacht</a></li>
+          <li><a href="/imeachtaí" class={currentUrl === '/imeachtaí' ? 'block text-5xl text-hot-pink font-bold transition-colors' : 'block text-5xl text-gray-900 hover:text-hot-pink transition-colors'}>Imeachtaí</a></li>
+          <li><a href="/contact" class={currentUrl === '/contact' ? 'block text-5xl text-hot-pink font-bold transition-colors' : 'block text-5xl text-gray-900 hover:text-hot-pink transition-colors'}>Teangmháil</a></li>
         </ul>
       </div>
 
       <!-- Bottom Section - Language Switcher and Search -->
       <div class="border-t p-6 space-y-4">
         <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-gray-600">Language</span>
+          <span class="text-sm font-medium text-gray-600">Teanga</span>
           <select name="language-mobile" class="px-3 py-2 border border-gray-300 rounded text-sm bg-white" id="language-selector-mobile">
             <option value="/" selected>GA</option>
             <option value="/en">EN</option>

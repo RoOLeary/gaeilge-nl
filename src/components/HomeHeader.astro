@@ -1,4 +1,9 @@
 ---
+import SplitText from "../components/SplitText";
+
+const handleAnimationComplete = () => {
+  console.log('All letters have animated!');
+};
 export interface Props {
 title: string;
 description: string;
@@ -7,6 +12,21 @@ const { title, description } = Astro.props;
 ---
 
 <header class="mx-auto max-w-5xl text-center content">
-  <h1 class="mb-4 greeting" data-test="header-title">{title}</h1>
+  <!-- <h1 class="mb-4 greeting" data-test="header-title">{title}</h1> -->
+  <SplitText
+  text={title}
+  className="text-6xl font-semibold text-center pb-4"
+  delay={100}
+  duration={0.6}
+  ease="power3.out"
+  splitType="chars"
+  from={{ opacity: 0, y: 40 }}
+  to={{ opacity: 1, y: 0 }}
+  threshold={0.1}
+  rootMargin="-100px"
+  textAlign="center"
+  onLetterAnimationComplete={handleAnimationComplete}
+  client:load
+/>
   <p data-test="header-description">{description}</p>
 </header>

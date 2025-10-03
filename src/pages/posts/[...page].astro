@@ -1,33 +1,33 @@
 ---
 import BaseHead from '../../components/Head/BaseHead.astro';
 import Nav from '../../components/Nav.astro';
-import HomeHeader from '../../components/HomeHeader.astro';
-import Card from '../../components/Card.astro';
 import Footer from '../../components/Footer/Footer.astro'
 import Paginator from '../../components/Paginator.astro'
-
-
-interface MarkdownFrontmatter {
-  date: number;
-}
+import { getCollection } from 'astro:content';
 
 export async function getStaticPaths({ paginate }) {
-  const allPosts = await Astro.glob<MarkdownFrontmatter>('./*.md');
-  const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf());
+  const allPosts = await getCollection('posts');
+  const sortedPosts = allPosts.sort((a, b) => {
+    const dateA = a.data.pubDate ? new Date(a.data.pubDate).valueOf() : 0;
+    const dateB = b.data.pubDate ? new Date(b.data.pubDate).valueOf() : 0;
+    return dateB - dateA;
+  });
 
-  return paginate(sortedPosts, {
-    pageSize: 6
+  return paginate(sortedPosts.map(post => ({
+    url: `/posts/${post.slug}/`,
+    ...post
+  })), {
+    pageSize: 10
   })
 }
 
 const { page } = Astro.props
 
-console.log(page);
 
-let pageTitle = 'Articles';
-let pageDescription = `page ${page.currentPage} of all articles`;
-let seoTitle = 'Articles | Creek';
-let seoDescription = '';
+let pageTitle = 'Altanna';
+let pageDescription = `Táimid ag fáil tuairiscí is faide chun méadú ar do ghaeilge`;
+let seoTitle = 'Altanna | Gaeltacht Amsterdam';
+let seoDescription = 'Irish language learning blog articles and cultural insights';
 ---
 
 <html lang="en">
@@ -39,14 +39,112 @@ let seoDescription = '';
 <body class="bg-white text-black font-body leading-normal personality-casual">
   <Nav />
 
-  <main class="py-12 lg:py-20">
-    <article class="max-w-6xl mx-auto px-3">
-      <HomeHeader title={pageTitle} description={pageDescription} />
-      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8" data-test="articles-section">
-        {page.data.map(p => <div class="col-span-1">
-          <Card post={p} />
-        </div>)}
+  <main class="py-8 lg:py-12">
+    <article class="max-w-4xl mx-auto px-6">
+      <!-- Blog Header -->
+      <header class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          {pageTitle}
+        </h1>
+        <p class="text-xl text-gray-600 leading-relaxed">
+          {pageDescription}
+        </p>
+        <div class="mt-6 text-sm text-gray-500">
+          Page {page.currentPage} of {page.lastPage} • {page.data.length} articles
+        </div>
+      </header>
+
+      <!-- Blog Posts List -->
+      <section class="space-y-6">
+        {page.data.map((post, index) => (
+          <article class="border-b border-gray-200 pb-8 md:pb-12 last:border-b-0">
+            <div class="flex flex-col md:flex-row gap-6 md:gap-8">
+              <!-- Thumbnail -->
+              {post.data.hero && (
+                <div class="md:w-80 flex-shrink-0">
+                  <a href={post.url} class="block group">
+                    <img 
+                      src={post.data.hero} 
+                      alt={post.data.title}
+                      class="w-full h-48 md:h-full object-cover rounded-lg shadow-md group-hover:shadow-lg transition-shadow duration-300"
+                    />
+                  </a>
+                </div>
+              )}
+              
+              <!-- Content -->
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-3">
+                  <time class="text-sm text-gray-500 font-medium">
+                    {new Date(post.data.pubDate).toLocaleDateString('en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </time>
+                  {post.data.tags && (
+                    <div class="flex gap-2">
+                      {post.data.tags.slice(0, 3).map(tag => (
+                        <span class="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                <h2 class="text-2xl md:text-3xl font-bold leading-tight mb-4 group">
+                  <a href={post.url} class="text-gray-900 hover:text-gray-700 transition-colors duration-200">
+                    {post.data.title}
+                  </a>
+                </h2>
+                
+                {post.data.description && (
+                  <p class="text-gray-600 leading-relaxed mb-4 text-lg">
+                    {post.data.description}
+                  </p>
+                )}
+                
+                <!-- Footer -->
+                <div class="flex items-center justify-between">
+                  <a 
+                    href={post.url} 
+                    class="inline-flex items-center text-slate-700 hover:text-slate-900 font-medium transition-colors duration-200 group"
+                  >
+                    Read More
+                    <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                  
+                  {post.data.readingTime && (
+                    <span class="text-sm text-gray-500">
+                      {post.data.readingTime} min read
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          </article>
+        ))}
       </section>
+
+      <!-- Pagination -->
+      {page.lastPage > 1 && (
+        <div class="mt-16">
+          <Paginator 
+            currentPage={page.currentPage} 
+            lastPage={page.lastPage}
+            currentPageUrl={page.currentPageUrl}
+            firstPageHref={page.firstPageUrl}
+            prevPageHref={page.previousPageUrl} 
+            nextPageHref={page.nextPageUrl}
+            lastPageHref={page.lastPageUrl}
+            pageHrefTemplate={page.url}
+            pages={page.links}
+          />
+        </div>
+      )}
     </article>
   </main>
   

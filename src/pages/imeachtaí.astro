@@ -1,0 +1,137 @@
+---
+import BaseHead from '../components/Head/BaseHead.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer/Footer.astro'
+import { getCollection } from 'astro:content';
+
+const title = 'Imeachtaí';
+const description = 'Imeachtaí Gaelach i mAmstardam - bígí páirteach inár gcultúr';
+const seoTitle = 'Imeachtaí | Gaeltacht Amsterdam';
+const seoDescription = 'Irish cultural events and gatherings in Amsterdam';
+
+const allEvents = await getCollection('events');
+const sortedEvents = allEvents.sort((a, b) => {
+  const dateA = a.data.eventDate ? a.data.eventDate.valueOf() : 0;
+  const dateB = b.data.eventDate ? b.data.eventDate.valueOf() : 0;
+  return dateA - dateB; // Upcoming events first
+});
+---
+
+<html lang="en">
+<head>
+  <BaseHead title={seoTitle} description={seoDescription} />
+</head>
+
+<body class="bg-white text-black font-body leading-normal personality-casual">
+  <Nav />
+
+  <main class="py-8 lg:py-12">
+    <article class="max-w-4xl mx-auto px-6">
+      <!-- Events Header -->
+      <header class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          {title}
+        </h1>
+        <p class="text-xl text-gray-600 leading-relaxed">
+          {description}
+        </p>
+      </header>
+
+      <!-- Events List -->
+      <section class="space-y-8">
+        {sortedEvents.length > 0 ? sortedEvents.map((event) => (
+          <article class="border border-gray-200 rounded-lg p-8 hover:border-gray-300 transition-colors duration-200">
+            <div class="flex flex-col md:flex-row gap-6">
+              <!-- Event Image -->
+              {event.data.hero && (
+                <div class="md:w-80 flex-shrink-0">
+                  <img 
+                    src={event.data.hero} 
+                    alt={event.data.title}
+                    class="w-full h-48 md:h-full object-cover rounded-lg"
+                  />
+                </div>
+              )}
+              
+              <!-- Event Details -->
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-4">
+                  <time class="text-sm text-gray-500 font-medium">
+                    {new Date(event.data.eventDate).toLocaleDateString('en-US', { 
+                      weekday: 'long',
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric',
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </time>
+                  {event.data.tags && (
+                    <div class="flex gap-2">
+                      {event.data.tags.slice(0, 2).map(tag => (
+                        <span class="inline-block px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                
+                <h2 class="text-2xl md:text-3xl font-bold leading-tight mb-4 text-gray-900">
+                  {event.data.title}
+                </h2>
+                
+                <p class="text-gray-600 leading-relaxed mb-6">
+                  {event.data.description}
+                </p>
+                
+                {/* Event Details */}
+                <div class="space-y-2 mb-6">
+                  {event.data.location && (
+                    <div class="flex items-center text-sm text-gray-600">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      {event.data.location}
+                    </div>
+                  )}
+                  {event.data.price && (
+                    <div class="flex items-center text-sm text-gray-600">
+                      <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                      </svg>
+                      {event.data.price}
+                    </div>
+                  )}
+                </div>
+                
+                {/* Registration Link */}
+                {event.data.registrationUrl && (
+                  <a 
+                    href={event.data.registrationUrl}
+                    class="inline-flex items-center px-4 py-2 bg-black text-white font-medium text-sm hover:bg-gray-800 transition-colors duration-200"
+                  >
+                    Register Now
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        )) : (
+          <div class="text-center py-12">
+            <p class="text-gray-600 text-lg">No upcoming events at the moment.</p>
+            <p class="text-gray-500 text-sm mt-2">Check back soon for our next gathering!</p>
+          </div>
+        )}
+      </section>
+    </article>
+  </main>
+  
+  <Footer />
+</body>
+
+</html>

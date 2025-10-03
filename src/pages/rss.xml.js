@@ -1,12 +1,15 @@
 import rss from "@astrojs/rss";
+import { getCollection } from 'astro:content';
 
-const postImportResult = import.meta.globEager("./articles/*.md");
-const posts = Object.values(postImportResult);
-
-export const get = () =>
+export const get = async () =>
   rss({
-    title: "Astro Theme Creek",
-    description: "A Theme for Astro",
+    title: "Gaeltacht NL",
+    description: "Irish language community blog",
     site: import.meta.env.SITE,
-    items: import.meta.glob("./articles/**/*.md"),
+    items: (await getCollection('posts')).map((post) => ({
+      title: post.data.title,
+      description: post.data.description,
+      pubDate: new Date(post.data.pubDate),
+      link: `/posts/${post.slug}/`,
+    })),
   });

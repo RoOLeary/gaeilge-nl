@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/BlogPostLayout.astro
-pubDate: 2020-02-01
+pubDate: 2025-02-01
 title: Installing Go on a Mac
 slug: installing-go-on-a-mac
 date: 2025-10-02T11:05:00.000+02:00

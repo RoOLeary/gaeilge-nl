@@ -1,25 +1,29 @@
 ---
 import BaseHead from '../components/Head/BaseHead.astro';
 import Nav from '../components/Nav.astro';
-import HomeHeader from '../components/HomeHeader.astro';
-import Card from '../components/Card.astro';
+import VoxStyleHero from '../components/VoxStyleHero';
+import VoxStyleStory from '../components/VoxStyleStory';
 import Footer from '../components/Footer/Footer.astro'
 import Squiggle from '../components/Footer/Squiggle.astro'
-import MagicBento from '../components/MagicBento';
+import { getCollection } from 'astro:content';
 
-interface MarkdownFrontmatter {
-  date: number;
-}
+const title = 'Gaeltacht NL';
+const description = 'Pobal Gaeilge i mAmstardam - téigh linn chun do Ghaeilge a chleachtadh agus cultúr na hÉireann a spleodar.';
+const seoDescription = 'Cuireadh comhphobail Gaeilge i mBaile Átha Cliath - Téann muid le chéile chun ár gcultúr agus ár dteanga a chomóradh';
 
-const title = 'Fáilte go Gaeltacht NL';
-const description = 'Suíomh don pobal na Gaeilge san Amstardam';
-const seoDescription = 'Suíomh don pobal na Gaeilge san Amstardam';
+const allPosts = await getCollection('posts');
+const sortedPosts = allPosts.sort((a, b) => {
+  const dateA = a.data.pubDate ? new Date(a.data.pubDate).valueOf() : 0;
+  const dateB = b.data.pubDate ? new Date(b.data.pubDate).valueOf() : 0;
+  return dateB - dateA;
+});
 
-const allPosts = await Astro.glob<MarkdownFrontmatter>('./posts/*.md');
-const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf());
-
-const allEvents = await Astro.glob<MarkdownFrontmatter>('./events/*.md');
-const sortedEvents = allEvents.sort((a, b) => new Date(b.frontmatter.eventDate).valueOf() - new Date(a.frontmatter.eventDate).valueOf());
+const allEvents = await getCollection('events');
+const sortedEvents = allEvents.sort((a, b) => {
+  const dateA = a.data.eventDate ? new Date(a.data.eventDate).valueOf() : 0;
+  const dateB = b.data.eventDate ? new Date(b.data.eventDate).valueOf() : 0;
+  return dateB - dateA;
+});
 ---
 
 <html lang="en">
@@ -31,47 +35,133 @@ const sortedEvents = allEvents.sort((a, b) => new Date(b.frontmatter.eventDate).
 <body class="bg-white text-black font-body leading-normal personality-casual">
   <Nav />
   
-  <main class="py-12 lg:py-20" transition:animate="fade">
-    
-    <article class="max-w-6xl mx-auto px-3">
-      <HomeHeader title={title} description={description} />
-      <section class="max-w-full mx-auto py-6 lg:py-12 content">
-        {sortedPosts.slice(0, 1).map(p => <div class="col-span-1">
-          <Card post={p} />
-        </div>)}
-      </section>
-      <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8" data-test="articles-section">
-        {sortedPosts.map(p => <div class="col-span-1">
-          <Card post={p} />
-        </div>)}
-      </section>
-    </article>
-  </main>
+  <!-- Vox-style Hero Section -->
+  <VoxStyleHero 
+    title={title}
+    subtitle="Irish Language Community" 
+    description={description}
+    client:load
+  />
 
-  <section class="flex space-x-4 justify-center text-xl font-bold">
-    <a href="/posts" class="mr-8" data-test="see-all-link">
-      Féach Ar Gach Rud<span class="squiggle">&rarr;</span>
-    </a>
-    <a href="/imeachta" class="ml-8" data-test="see-events-link">
-      Imeachtaí<span class="squiggle">&rarr;</span>
-    </a>
+  <!-- How We Work Section -->
+  <VoxStyleStory 
+    enableAnimations={true}
+    client:load
+  />
+
+  <!-- Latest Post Highlight -->
+  {sortedPosts.length > 0 && (
+    <section class="py-20 px-8 bg-white">
+      <div class="max-w-5xl mx-auto">
+        <div class="mb-12">
+          <div class="text-sm font-medium text-gray-700 mb-4">
+            <span class="border-b-2 border-gray-300 pb-1">LATEST</span>
+          </div>
+          <h2 class="text-5xl md:text-6xl font-bold text-black leading-tight">
+            Latest Article
+          </h2>
+        </div>
+        
+        {(() => {
+          const featuredPost = sortedPosts[0];
+          return (
+            <article class="border border-gray-200 hover:border-gray-300 transition-colors duration-200">
+              <div class="md:flex">
+                {featuredPost.data.hero && (
+                  <div class="md:w-1/2">
+                    <img 
+                      src={featuredPost.data.hero} 
+                      alt={featuredPost.data.title}
+                      class="w-full h-64 md:h-auto object-cover"
+                    />
+                  </div>
+                )}
+                <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                  <h3 class="text-2xl md:text-3xl font-bold text-black mb-6 leading-tight">
+                    <a href={`/posts/${featuredPost.slug}`} class="hover:text-gray-600 transition-colors duration-200">{featuredPost.data.title}</a>
+                  </h3>
+                  {featuredPost.data.description && (
+                    <p class="text-gray-600 mb-8 leading-relaxed font-light">
+                      {featuredPost.data.description}
+                    </p>
+                  )}
+                  <a 
+                    href={`/posts/${featuredPost.slug}`}
+                    class="inline-flex items-center text-black font-medium transition-colors duration-200 hover:text-gray-600 w-fit"
+                  >
+                    Read Article
+                    <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })()}
+      </div>
+    </section>
+  )}
+
+  <!-- Actions Section -->
+  <section class="py-20 px-8 bg-gray-50">
+    <div class="max-w-5xl mx-auto">
+      <div class="mb-12">
+        <div class="text-sm font-medium text-gray-700 mb-4">
+          <span class="border-b-2 border-gray-300 pb-1">GET INVOLVED</span>
+        </div>
+        <h2 class="text-5xl md:text-6xl font-bold text-black leading-tight">
+          Join Us
+        </h2>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <a href="/contact" class="group">
+          <div class="border border-gray-200 p-8 hover:border-black transition-colors duration-200">
+            <h3 class="text-xl font-bold text-black mb-4 group-hover:text-gray-600 transition-colors duration-200">
+              Upcoming Events
+            </h3>
+            <p class="text-gray-600 font-light leading-relaxed mb-6">
+              Join our regular Irish language gatherings and cultural celebrations.
+            </p>
+            <span class="text-black font-medium group-hover:text-gray-600 transition-colors duration-200">
+              Contact Us →
+            </span>
+          </div>
+        </a>
+        
+        <a href="/posts" class="group">
+          <div class="border border-gray-200 p-8 hover:border-black transition-colors duration-200">
+            <h3 class="text-xl font-bold text-black mb-4 group-hover:text-gray-600 transition-colors duration-200">
+              Read Stories
+            </h3>
+            <p class="text-gray-600 font-light leading-relaxed mb-6">
+              Explore articles and insights from our Irish language community.
+            </p>
+            <span class="text-black font-medium group-hover:text-gray-600 transition-colors duration-200">
+              Read Articles →
+            </span>
+          </div>
+        </a>
+        
+        <a href="/contact" class="group">
+          <div class="border border-gray-200 p-8 hover:border-black transition-colors duration-200">
+            <h3 class="text-xl font-bold text-black mb-4 group-hover:text-gray-600 transition-colors duration-200">
+              Get Connected
+            </h3>
+            <p class="text-gray-600 font-light leading-relaxed mb-6">
+              Connect with us and become part of the Irish community in Amsterdam.
+            </p>
+            <span class="text-black font-medium group-hover:text-gray-600 transition-colors duration-200">
+              Contact Us →
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
   </section>
-  <section class="max-w-full mx-auto py-6 lg:py-12 content">
-    <MagicBento 
-      textAutoHide={true}
-      enableStars={true}
-      enableSpotlight={true}
-      enableBorderGlow={true}
-      enableTilt={true}
-      enableMagnetism={true}
-      clickEffect={true}
-      spotlightRadius={300}
-      particleCount={12}
-      glowColor="132, 0, 255"
-    />
-  </section>
-  <!-- <Footer /> -->
   
+  <Footer />
   <Squiggle />
 </body>
 

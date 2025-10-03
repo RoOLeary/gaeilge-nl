@@ -26,12 +26,7 @@ export default function Contact() {
           <rect fill="url(#83fd4e5a-9d52-42fc-97b6-718e5d7ee527)" width="100%" height="100%" strokeWidth={0} />
         </svg>
         <div className="mx-auto max-w-xl lg:max-w-4xl">
-          <h2 className="text-4xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-5xl dark:text-white">
-            Let’s talk about your project
-          </h2>
-          <p className="mt-2 text-lg/8 text-gray-600 dark:text-gray-400">
-            We help companies and individuals build out their brand guidelines.
-          </p>
+          
           <div className="mt-16 flex flex-col gap-16 sm:gap-y-20 lg:flex-row">
             <form action="#" method="POST" className="lg:flex-auto">
               <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
