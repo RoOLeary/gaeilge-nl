@@ -1,5 +1,8 @@
 .content {
   h1 {
+
+    
+
     @apply font-display uppercase font-bold leading-none;
     margin-bottom: 1em;
 
@@ -7,6 +10,10 @@
 
     @supports (font-size: clamp(3rem, 6.25vw, 7rem)) {
       font-size: clamp(3rem, 6.25vw, 7rem);
+    }
+
+    &.greeting {
+      @apply text-[5em] font-bold leading-none tracking-tight;
     }
   }
 

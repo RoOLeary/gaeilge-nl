@@ -6,6 +6,7 @@ slug: introducing-astro
 date: 2025-10-02T11:17:00.000+02:00
 thumbnail: /uploads/image-11-.png
 author: ronan-o-laoire
+lang: ga
 tags:
   - astro
 hero: /images/introducing-astro.jpg

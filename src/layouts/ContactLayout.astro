@@ -3,6 +3,7 @@ import Nav from '../components/Nav.astro';
 import BaseHead from '../components/Head/BaseHead.astro';
 import HomeHeader from '../components/HomeHeader.astro';
 import Contact from '../components/Contact';
+import Footer from '../components/Footer/Footer.astro';
 const {content} = Astro.props;
 const {title, description } = content;
 ---
@@ -11,12 +12,13 @@ const {title, description } = content;
     <BaseHead title={title} description={description} />
   </head>
 
-  <body>
+  <body class="bg-white text-black font-body leading-normal personality-casual">
     <Nav />
     <main class="py-12 lg:py-20">
         <HomeHeader title={title} description={description} />
         <Contact />
     </main>
+    <Footer />
   </body>
 </html>
 

@@ -7,6 +7,7 @@ date: 2025-10-02T10:56:00.000+02:00
 thumbnail: /uploads/image-11-.png
 rating: 5
 author: ronan-o-laoire
+lang: ga
 tags:
   - javascript
 faq:

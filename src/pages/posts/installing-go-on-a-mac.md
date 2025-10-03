@@ -2,11 +2,12 @@
 layout: ../../layouts/BlogPostLayout.astro
 pubDate: 2020-02-01
 title: Installing Go on a Mac
-slug: go-basics-1-installing-go-on-a-mac
+slug: installing-go-on-a-mac
 date: 2025-10-02T11:05:00.000+02:00
 thumbnail: /uploads/image-11-.png
 rating: 5
 author: ronan-o-laoire
+lang: ga
 tags:
   - go
 faq:

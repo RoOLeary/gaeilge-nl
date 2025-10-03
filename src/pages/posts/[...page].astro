@@ -7,13 +7,16 @@ import Footer from '../../components/Footer/Footer.astro'
 import Paginator from '../../components/Paginator.astro'
 
 
+interface MarkdownFrontmatter {
+  date: number;
+}
+
 export async function getStaticPaths({ paginate }) {
   const allPosts = await Astro.glob<MarkdownFrontmatter>('./*.md');
   const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf());
 
-
   return paginate(sortedPosts, {
-    pageSize: 21
+    pageSize: 6
   })
 }
 
@@ -31,7 +34,6 @@ let seoDescription = '';
 
 <head>
   <BaseHead title={seoTitle} description={seoDescription} />
- 
 </head>
 
 <body class="bg-white text-black font-body leading-normal personality-casual">

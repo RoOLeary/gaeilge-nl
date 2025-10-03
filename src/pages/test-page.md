@@ -1,8 +1,8 @@
 ---
 layout: ../layouts/MainLayout.astro
 pubDate: 2020-10-02
-title: Test Page
-slug: test-page
+title: Imeachtaí
+slug: imeachtaí
 date: 2025-10-02T10:56:00.000+02:00
 thumbnail: /uploads/image-11-.png
 rating: 5

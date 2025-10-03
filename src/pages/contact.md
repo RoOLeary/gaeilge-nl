@@ -1,7 +1,7 @@
 ---
 layout: ../layouts/ContactLayout.astro
 pubDate: 2020-10-02
-title: Contact
+title: Teangmháil
 slug: contact
 date: 2025-10-02T10:56:00.000+02:00
 thumbnail: /uploads/image-11-.png

@@ -5,30 +5,32 @@ import HomeHeader from '../components/HomeHeader.astro';
 import Card from '../components/Card.astro';
 import Footer from '../components/Footer/Footer.astro'
 import Squiggle from '../components/Footer/Squiggle.astro'
+import { ViewTransitions } from 'astro:transitions'
 import MagicBento from '../components/MagicBento';
-
 interface MarkdownFrontmatter {
   date: number;
 }
 
-const title = 'Fáilte go Gaeltacht NL';
-const description = 'Suíomh don pobal na Gaeilge san Amstardam';
-const seoDescription = 'Suíomh don pobal na Gaeilge san Amstardam';
+const title = 'Welkom bij Gaeltacht Amsterdam';
+const description = 'Gemeenschapssite voor Ierse sprekers in Amsterdam';
+const seoDescription = 'Gemeenschapssite voor Ierse sprekers in Amsterdam';
 
 const allPosts = await Astro.glob<MarkdownFrontmatter>('./posts/*.md');
 const sortedPosts = allPosts.sort((a, b) => new Date(b.frontmatter.pubDate).valueOf() - new Date(a.frontmatter.pubDate).valueOf());
 
 const allEvents = await Astro.glob<MarkdownFrontmatter>('./events/*.md');
 const sortedEvents = allEvents.sort((a, b) => new Date(b.frontmatter.eventDate).valueOf() - new Date(a.frontmatter.eventDate).valueOf());
+
 ---
 
-<html lang="en">
+<html lang="nl">
 
 <head>
   <BaseHead title={title} description={seoDescription} />
+  <ViewTransitions />
 </head>
 
-<body class="bg-white text-black font-body leading-normal personality-casual">
+<body class="bg-gray-50 text-gray-900 font-body leading-normal personality-casual">
   <Nav />
   
   <main class="py-12 lg:py-20" transition:animate="fade">
@@ -50,10 +52,10 @@ const sortedEvents = allEvents.sort((a, b) => new Date(b.frontmatter.eventDate).
 
   <section class="flex space-x-4 justify-center text-xl font-bold">
     <a href="/posts" class="mr-8" data-test="see-all-link">
-      Féach Ar Gach Rud<span class="squiggle">&rarr;</span>
+      Bekijk Alle Berichten<span class="squiggle">&rarr;</span>
     </a>
-    <a href="/imeachta" class="ml-8" data-test="see-events-link">
-      Imeachtaí<span class="squiggle">&rarr;</span>
+    <a href="/events" class="ml-8" data-test="see-events-link">
+      Evenementen<span class="squiggle">&rarr;</span>
     </a>
   </section>
   <section class="max-w-full mx-auto py-6 lg:py-12 content">
@@ -61,17 +63,10 @@ const sortedEvents = allEvents.sort((a, b) => new Date(b.frontmatter.eventDate).
       textAutoHide={true}
       enableStars={true}
       enableSpotlight={true}
-      enableBorderGlow={true}
-      enableTilt={true}
-      enableMagnetism={true}
-      clickEffect={true}
-      spotlightRadius={300}
-      particleCount={12}
-      glowColor="132, 0, 255"
     />
   </section>
-  <!-- <Footer /> -->
-  
+
+  <Footer />
   <Squiggle />
 </body>
 

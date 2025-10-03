@@ -3,12 +3,13 @@ import { fade } from "astro:transitions";
 import Nav from "../components/Nav.astro";
 import BaseHead from "../components/Head/BaseHead.astro";
 import BlogPost from "../components/BlogPost.astro";
+import Footer from "../components/Footer/Footer.astro";
 // Sampla: React Counter mar oileán
 import Counter from "../components/Counter";
 import { ViewTransitions } from "astro:transitions";
 
 const { content } = Astro.props;
-const { title, description, date, hero, youtube, faq, author } = content;
+const { title = 'Untitled', description = '', date = '', hero = '', youtube = '', faq = [], author = 'Unknown' } = content || {};
 ---
 
 <html lang={content.lang || "en"}>
@@ -18,7 +19,7 @@ const { title, description, date, hero, youtube, faq, author } = content;
     <ViewTransitions />
   </head>
 
-  <body>
+  <body class="bg-white text-black font-body leading-normal personality-casual">
     <Nav />
 
     <!-- Coinnigh an Counter idir nascleanúintí -->
@@ -31,5 +32,7 @@ const { title, description, date, hero, youtube, faq, author } = content;
         <slot />
       </BlogPost>
     </main>
+    
+    <Footer />
   </body>
 </html>

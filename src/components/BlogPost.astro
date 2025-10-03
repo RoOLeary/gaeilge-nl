@@ -15,19 +15,40 @@ const { title, date, hero, youtube, author, faq } = Astro.props;
 ---
 
 <article class="max-w-5xl mx-auto px-3">
-  <header class="mx-auto max-w-3xl text-center content">
-    <h1>{title}</h1>
+  <header class="mx-auto max-w-5xl text-center content">
+    <h1 class="mb-4 greeting" data-test="header-title">{title}</h1>
+    <p data-test="header-description">Blog Post</p>
   </header>
   <small>Author: {author}</small>
   <!-- Image -->
-  {hero && <img class="rounded-xl mx-auto" style="min-width: 80%;" loading="lazy" src={hero} alt={title} />}
+  {hero && (
+    <img 
+      class="rounded-xl mx-auto" 
+      style="min-width: 80%; width: 100%; max-width: 800px;" 
+      loading="eager" 
+      src={hero} 
+      alt={title}
+      onerror="this.style.display='none'"
+    />
+  )}
 
   <!-- YouTube Video -->
-  {youtube && <div class="embed-responsive aspect-ratio-16/9 mt-6 lg:mt-12">
-    <iframe width="700" height="500" class="embed-responsive-item"
-      src={`https://www.youtube.com/embed/${youtube}`} frameborder="0"
-      allow="accelerometer; autoplay; encrypted-media; gyroscope;" allowfullscreen></iframe>
-  </div>}
+  {youtube && (
+    <div class="embed-responsive aspect-ratio-16/9 mt-6 lg:mt-12">
+      <iframe 
+        width="700" 
+        height="500" 
+        class="embed-responsive-item"
+        src={`https://www.youtube.com/embed/${youtube}`} 
+        frameborder="0"
+        loading="lazy"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope;" 
+        allowfullscreen
+        title={`YouTube video for ${title}`}
+        onerror="this.parentElement.parentElement.style.display='none'">
+      </iframe>
+    </div>
+  )}
 
   <!-- Content -->
   <section class="max-w-3xl mx-auto py-6 lg:py-12 content">

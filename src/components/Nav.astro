@@ -4,16 +4,24 @@
 
 <nav>
   <div class="max-w-5xl mx-auto px-3 py-3 flex items-center justify-between h-16">
-    <a href="/" class="font-bold text-xl hover:text-hot-pink">Gaeltacht Amstardam</a>
+    <a href="/" class="font-bold text-xl hover:text-hot-pink">Gaeltacht NL</a>
 
-    <div class="flex items-center">
+    <!-- Desktop Menu -->
+    <div class="hidden md:flex items-center">
       <ul class="flex gap-3">
         <li><a href="/">Home</a></li>
-        <li><a href="/posts">Ailt</a></li>
-        <li><a href="/test-page">Test</a></li>
-        <li><a href="/products">Products</a></li>
-        <li><a href="/contact">Contact</a></li>
+        <li><a href="/posts">Nuacht</a></li>
+        <li><a href="/imeachta">Imeachtaí</a></li>
+        <li><a href="/contact">Teangmháil</a></li>
       </ul>
+      
+      <!-- Language switcher -->
+      <select name="language" class="mx-4 px-2 py-1 border border-gray-300 rounded text-sm bg-white" id="language-selector">
+        <option value="/" selected>GA</option>
+        <option value="/en">EN</option>
+        <option value="/nl">NL</option>
+      </select>
+      
       <a href="/search" class="pl-4">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -21,6 +29,169 @@
         </svg>
       </a>
     </div>
+
+    <!-- Mobile Hamburger Button -->
+    <button class="md:hidden flex flex-col gap-1 p-3 hover:bg-gray-100 rounded" id="mobile-menu-button" aria-label="Toggle mobile menu">
+      <span class="block w-6 h-1 bg-black transition-transform duration-300 mb-1.5"></span>
+      <span class="block w-6 h-1 bg-black transition-transform duration-300 mb-1.5"></span>
+      <span class="block w-6 h-1 bg-black transition-transform duration-300"></span>
+    </button>
   </div>
+  
   <div class="w-full border-b-2 border-black squiggle"></div>
+
+  <!-- Mobile Menu Overlay -->
+  <div class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden" id="mobile-menu-overlay"></div>
+  
+  <!-- Mobile Menu Panel - Full Screen Slide-in from Right -->
+  <div class="fixed top-0 right-0 h-full w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50" id="mobile-menu">
+    <div class="flex justify-between items-center py-3 px-6">
+      <h2 class="text-2xl font-bold">Clár</h2>
+      <button class="p-2" id="mobile-close-button" aria-label="Close mobile menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="flex flex-col h-screen">
+      <!-- Navigation Links -->
+      <div class="flex-1 p-6">
+        <ul class="space-y-6">
+          <li><a href="/" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Baile</a></li>
+          <li><a href="/posts" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Nuacht</a></li>
+          <li><a href="/imeachta" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Imeachtaí</a></li>
+          <li><a href="/contact" class="block text-2xl text-gray-900 hover:text-hot-pink transition-colors">Teangmháil</a></li>
+        </ul>
+      </div>
+
+      <!-- Bottom Section - Language Switcher and Search -->
+      <div class="border-t p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-gray-600">Language</span>
+          <select name="language-mobile" class="px-3 py-2 border border-gray-300 rounded text-sm bg-white" id="language-selector-mobile">
+            <option value="/" selected>GA</option>
+            <option value="/en">EN</option>
+            <option value="/nl">NL</option>
+          </select>
+        </div>
+        
+        <a href="/search" class="flex items-center text-lg text-gray-700 hover:text-hot-pink transition-colors">
+          <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          Search
+        </a>
+      </div>
+    </div>
+  </div>
 </nav>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Language switching
+    const languageSelects = document.querySelectorAll('#language-selector, #language-selector-mobile');
+    
+    // Set current language based on current path
+    const currentPath = window.location.pathname;
+    let currentLanguage = '/';
+    if (currentPath.startsWith('/en')) currentLanguage = '/en';
+    else if (currentPath.startsWith('/nl')) currentLanguage = '/nl';
+    
+    languageSelects.forEach(select => {
+      select.value = currentLanguage;
+      
+      select.addEventListener('change', function(e) {
+        const selectedLanguage = e.target.value;
+        window.location.href = selectedLanguage;
+      });
+    });
+
+    // Mobile menu functionality
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileCloseButton = document.getElementById('mobile-close-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
+    
+    if (!mobileMenuButton || !mobileCloseButton || !mobileMenu || !mobileMenuOverlay) {
+      console.warn('Mobile menu elements not found, skipping mobile menu setup');
+      return;
+    }
+    
+    const hamburgerLines = mobileMenuButton.querySelectorAll('span');
+    if (hamburgerLines.length !== 3) {
+      console.warn('Expected 3 hamburger lines, found', hamburgerLines.length);
+      return;
+    }
+
+    let isMenuOpen = false;
+
+    function openMobileMenu() {
+      if (isMenuOpen) return;
+      
+      mobileMenuOverlay.classList.remove('hidden');
+      mobileMenu.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+      
+      // Animate hamburger lines to X
+      hamburgerLines[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      hamburgerLines[1].style.transform = 'scaleX(0)';
+      hamburgerLines[2].style.transform = 'rotate(-45deg) translate(7px, -6px)';
+      
+      isMenuOpen = true;
+    }
+
+    function closeMobileMenu() {
+      if (!isMenuOpen) return;
+      
+      mobileMenuOverlay.classList.add('hidden');
+      mobileMenu.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+      
+      // Reset hamburger lines
+      hamburgerLines[0].style.transform = '';
+      hamburgerLines[1].style.transform = '';
+      hamburgerLines[2].style.transform = '';
+      
+      isMenuOpen = false;
+    }
+
+    // Event listeners
+    mobileMenuButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (isMenuOpen) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+
+      document.addEventListener('click', function(event) {
+        if (!mobileMenu.contains(event.target) && !mobileMenuButton.contains(event.target)) {
+          closeMobileMenu();
+        }
+      });
+    });
+    
+    mobileCloseButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      closeMobileMenu();
+    });
+    
+    mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+    // Close menu when clicking on nav links
+    const mobileNavLinks = mobileMenu.querySelectorAll('a');
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
+
+    // Close menu on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && !mobileMenu.classList.contains('translate-x-full')) {
+        closeMobileMenu();
+      }
+    });
+  });
+</script>
