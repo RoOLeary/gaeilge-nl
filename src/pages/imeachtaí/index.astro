@@ -1,7 +1,7 @@
 ---
-import BaseHead from '../components/Head/BaseHead.astro';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer/Footer.astro'
+import BaseHead from '../../components/Head/BaseHead.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer/Footer.astro'
 import { getCollection } from 'astro:content';
 
 const title = 'Imeachtaí';
@@ -26,7 +26,7 @@ const sortedEvents = allEvents.sort((a, b) => {
   <Nav />
 
   <main class="py-8 lg:py-12">
-    <article class="max-w-4xl mx-auto px-6">
+    <article class="max-w-5xl mx-auto px-6">
       <!-- Events Header -->
       <header class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
@@ -106,18 +106,29 @@ const sortedEvents = allEvents.sort((a, b) => {
                   )}
                 </div>
                 
-                {/* Registration Link */}
-                {event.data.registrationUrl && (
+                {/* Event Links */}
+                <div class="flex gap-3">
                   <a 
-                    href={event.data.registrationUrl}
+                    href={`/imeachtaí/${event.slug}`}
                     class="inline-flex items-center px-4 py-2 bg-black text-white font-medium text-sm hover:bg-gray-800 transition-colors duration-200"
                   >
-                    Register Now
+                    Read More
                     <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </a>
-                )}
+                  {event.data.registrationUrl && !event.data.registrationUrl.startsWith('imeachtaí/') && (
+                    <a 
+                      href={event.data.registrationUrl}
+                      class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 font-medium text-sm hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Register
+                      <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </article>

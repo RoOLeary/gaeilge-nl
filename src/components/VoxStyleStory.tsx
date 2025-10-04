@@ -33,7 +33,7 @@ const VoxStyleStory: React.FC<VoxStyleStoryProps> = ({
 
   const storyItems = [
     {
-      title: 'Language Learning',
+      title: 'Foghlaim agus Labhairt',
       description: 'Regular conversation sessions where beginners and fluent speakers practice Irish together in a supportive environment.',
       highlight: 'Every Tuesday'
     },
@@ -68,7 +68,7 @@ const VoxStyleStory: React.FC<VoxStyleStoryProps> = ({
             BIGÍ LINN, AG CEILURADH ÁR DTEANGA ÁLAINN
           </h2>
           <p className="text-xl text-gray-600 font-light max-w-2xl leading-relaxed">
-            Three core pillars of our Irish language community in Amsterdam.
+            Trí phríomhcholún dár bpobal Gaeilge thar lear
           </p>
         </div>
 

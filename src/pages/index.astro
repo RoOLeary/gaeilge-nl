@@ -7,7 +7,7 @@ import Footer from '../components/Footer/Footer.astro'
 import Squiggle from '../components/Footer/Squiggle.astro'
 import { getCollection } from 'astro:content';
 
-const title = 'Gaeltacht NL';
+const title = 'Gaeltacht AMS';
 const description = 'Pobal Gaeilge i mAmstardam - téigh linn chun do Ghaeilge a chleachtadh agus cultúr na hÉireann a spleodar.';
 const seoDescription = 'Cuireadh comhphobail Gaeilge i mBaile Átha Cliath - Téann muid le chéile chun ár gcultúr agus ár dteanga a chomóradh';
 
@@ -55,10 +55,10 @@ const sortedEvents = allEvents.sort((a, b) => {
       <div class="max-w-5xl mx-auto">
         <div class="mb-12">
           <div class="text-sm font-medium text-gray-700 mb-4">
-            <span class="border-b-2 border-gray-300 pb-1">LATEST</span>
+            <span class="border-b-2 border-gray-300 pb-1">IS DEANAÍ</span>
           </div>
           <h2 class="text-5xl md:text-6xl font-bold text-black leading-tight">
-            Latest Article
+            An t-alt is deanaí
           </h2>
         </div>
         
@@ -76,7 +76,7 @@ const sortedEvents = allEvents.sort((a, b) => {
                     />
                   </div>
                 )}
-                <div class="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+                <div class="md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
                   <h3 class="text-2xl md:text-3xl font-bold text-black mb-6 leading-tight">
                     <a href={`/posts/${featuredPost.slug}`} class="hover:text-gray-600 transition-colors duration-200">{featuredPost.data.title}</a>
                   </h3>
@@ -108,21 +108,21 @@ const sortedEvents = allEvents.sort((a, b) => {
     <div class="max-w-5xl mx-auto">
       <div class="mb-12">
         <div class="text-sm font-medium text-gray-700 mb-4">
-          <span class="border-b-2 border-gray-300 pb-1">GET INVOLVED</span>
+          <span class="border-b-2 border-gray-300 pb-1">BÍ PÁIRTEACH</span>
         </div>
         <h2 class="text-5xl md:text-6xl font-bold text-black leading-tight">
-          Join Us
+          Bigí Linn
         </h2>
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <a href="/contact" class="group">
+        <a href="/imeachtaí" class="group">
           <div class="border border-gray-200 p-8 hover:border-black transition-colors duration-200">
             <h3 class="text-xl font-bold text-black mb-4 group-hover:text-gray-600 transition-colors duration-200">
-              Upcoming Events
+              Imeachtaí le teacht
             </h3>
             <p class="text-gray-600 font-light leading-relaxed mb-6">
-              Join our regular Irish language gatherings and cultural celebrations.
+              Glac páirt inár gcruinnithe rialta Gaeilge agus inár gceiliúradh cultúrtha.
             </p>
             <span class="text-black font-medium group-hover:text-gray-600 transition-colors duration-200">
               Contact Us →
@@ -133,13 +133,13 @@ const sortedEvents = allEvents.sort((a, b) => {
         <a href="/posts" class="group">
           <div class="border border-gray-200 p-8 hover:border-black transition-colors duration-200">
             <h3 class="text-xl font-bold text-black mb-4 group-hover:text-gray-600 transition-colors duration-200">
-              Read Stories
+              Leigh Scéalta
             </h3>
             <p class="text-gray-600 font-light leading-relaxed mb-6">
               Explore articles and insights from our Irish language community.
             </p>
             <span class="text-black font-medium group-hover:text-gray-600 transition-colors duration-200">
-              Read Articles →
+              Leigh Scéalta →
             </span>
           </div>
         </a>
@@ -147,13 +147,13 @@ const sortedEvents = allEvents.sort((a, b) => {
         <a href="/contact" class="group">
           <div class="border border-gray-200 p-8 hover:border-black transition-colors duration-200">
             <h3 class="text-xl font-bold text-black mb-4 group-hover:text-gray-600 transition-colors duration-200">
-              Get Connected
+              Déan Nascanna nua!
             </h3>
             <p class="text-gray-600 font-light leading-relaxed mb-6">
-              Connect with us and become part of the Irish community in Amsterdam.
+              Ceangail linn agus bí i do bhall den phobal Éireannach in Amsterdam.
             </p>
             <span class="text-black font-medium group-hover:text-gray-600 transition-colors duration-200">
-              Contact Us →
+              Labhair Linn →
             </span>
           </div>
         </a>

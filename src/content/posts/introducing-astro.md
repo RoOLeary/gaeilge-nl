@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/BlogPostLayout.astro
 pubDate: 2025-06-08
 title: "Introducing Astro: Ship Less JavaScript"
 slug: introducing-astro

@@ -1,0 +1,35 @@
+---
+import { getCollection } from 'astro:content';
+import EventPageLayout from '../../layouts/EventPageLayout.astro';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  
+  return events.map((event) => ({
+    params: { slug: event.slug },
+    props: { event }
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await event.render();
+---
+
+<EventPageLayout 
+  title={event.data.title}
+  description={event.data.description}
+  eventDate={event.data.eventDate}
+  endDate={event.data.endDate}
+  location={event.data.location}
+  venue={event.data.venue}
+  address={event.data.address}
+  city={event.data.city}
+  country={event.data.country}
+  price={event.data.price}
+  organizer={event.data.organizer}
+  organizerEmail={event.data.organizerEmail}
+  languageLevel={event.data.languageLevel}
+  tags={event.data.tags}
+>
+  <Content />
+</EventPageLayout>

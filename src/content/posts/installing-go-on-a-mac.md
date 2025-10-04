@@ -1,5 +1,4 @@
 ---
-layout: ../../layouts/BlogPostLayout.astro
 pubDate: 2025-02-01
 title: Installing Go on a Mac
 slug: installing-go-on-a-mac

@@ -74,7 +74,7 @@ const VoxStyleHero: React.FC<VoxStyleHeroProps> = ({
             href="/posts"
             className="inline-flex items-center px-6 py-3 border-2 border-gray-300 text-gray-700 font-medium text-base hover:border-black hover:text-black transition-colors duration-200"
           >
-            READ STORIES
+            LEIGH SCÉALTÍ
           </a>
         </div>
 

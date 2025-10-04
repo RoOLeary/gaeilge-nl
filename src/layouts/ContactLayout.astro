@@ -1,22 +1,23 @@
 ---
 import Nav from '../components/Nav.astro';
 import BaseHead from '../components/Head/BaseHead.astro';
-import HomeHeader from '../components/HomeHeader.astro';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer/Footer.astro';
+import { ViewTransitions } from "astro:transitions";
+
 const {content} = Astro.props;
 const {title, description } = content;
 ---
 <html lang={ content.lang || 'en' }>
   <head>
     <BaseHead title={title} description={description} />
+    <ViewTransitions />
   </head>
 
-  <body class="bg-white text-black font-body leading-normal personality-casual">
+  <body class="bg-white text-black font-body leading-normal">
     <Nav />
-    <main class="py-12 lg:py-20">
-        <HomeHeader title={title} description={description} />
-        <Contact />
+    <main>
+        <Contact client:load />
     </main>
     <Footer />
   </body>
